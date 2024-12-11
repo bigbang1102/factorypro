@@ -1,0 +1,224 @@
+import { Box, Typography } from '@mui/material';
+import tw, { css } from 'twin.macro';
+import { Table } from '@/shared/Components/Table';
+import { numberFormat } from '@/helpers/functions/validation';
+
+export default function TopSummaryReport(props) {
+  const { summaryData, currentTab } = props;
+
+  const getWidthColumn = (name) => {
+    switch (currentTab) {
+      case 'oee':
+        {
+        }
+        break;
+
+      default:
+        break;
+    }
+  };
+  const productionTop10MockData = [
+    { No: 1, Line: "L005", ProductNo: "9-OP26357", ProductName: "ORIENTAL LOVELY SAKURA SHOWER CREAM 400 ML", Mo: "12405721", Total: 14183 },
+    { No: 2, Line: "L005", ProductNo: "9-OP28332F1", ProductName: "RHYTHMS OF NATURE SUMMER SOFT LINEN MIST 250 ML", Mo: "12406413", Total: 13449 },
+    { No: 3, Line: "L005", ProductNo: "9-OP283330F1", ProductName: "BEAUTY SWEET BERRY SHOWER CREAM 400 ML", Mo: "12406404 ", Total: 13359 },
+    { No: 4, Line: "L005", ProductNo: "9-OP28333F1", ProductName: "BEAUTY PASSION FLOWER SHOWER CREAM", Mo: "12406416", Total: 12327 },
+    { No: 5, Line: "L005", ProductNo: "9-OP26361", ProductName: "BEAUTY LOVELY SAKURA BODT LOTION", Mo: "12405722", Total: 12078 },
+    { No: 6, Line: "L005", ProductNo: "9-OP28324F1", ProductName: "BEAUTY BLOOMING VIOLET SHOWER CREAM 400 ML", Mo: "12406384", Total: 11326 },
+    { No: 7, Line: "L005", ProductNo: "9-OP26481", ProductName: "enriched milk body lotion", Mo: "12406070", Total: 9697 },
+    { No: 8, Line: "L005", ProductNo: "9-OP25419", ProductName: "BEAUTY BLOOMING VIOLET SHOWER400", Mo: " 12408205", Total: 9372 },
+    { No: 9, Line: "L005", ProductNo: "9-OP25397", ProductName: "PH BALANCED FEMININE HYGIENE TOUCH", Mo: "   12406451", Total: 8997 },
+    { No: 10, Line: "L005", ProductNo: "9-OP26481", ProductName: "enriched milk body lotion", Mo: "12406069", Total: 8165 },
+  ];
+  const defectMockData = [
+    { No: 1, Defect: "ฉลากดำ", Process: "Assembly", Total: 5.03 },
+    { No: 2, Defect: "ฝาแตก ", Process: "Assembly", Total: 0.16 },
+
+  ];
+  const lossTimeMockData = [
+    { No: 1, Losstime: "Setting", Type: "Machineloss", Total: 1025 },
+
+  ];
+  const oeeTop3MockData = [
+    { No: 1, Line: "L005", ProductNo: "9-OP25419", ProductName: "BEAUTY BLOOMING VIOLET SHOWER400", Mo: "12408205", Total: 174.84 },
+    { No: 2, Line: "L005", ProductNo: "9-OP26357", ProductName: "ORIENTAL LOVELY SAKURA SHOWER CREAM 400 ML", Mo: "12406413", Total: 153.43 },
+    { No: 3, Line: "L005", ProductNo: "9-OP25397", ProductName: "PH BALANCED FEMININE HYGIENE TOUCH ", Mo: "12406451", Total: 132.79 },
+
+  ];
+  const effTop10MockData = [
+    { No: 1, Line: "L005", ProductNo: "9-OP28324F1", ProductName: "BEAUTY BLOOMING VIOLET SHOWER CREAM 400 ML", Mo: "12406384", Total: 125.84 },
+    { No: 2, Line: "L005", ProductNo: "9-OP25392", ProductName: " FRESH&JUICY PEACH MOISTURISER 250 ML", Mo: "12407505", Total: 98.96 },
+    { No: 3, Line: "L005", ProductNo: "9-OP26357", ProductName: "ORIENTAL LOVELY SAKURA SHOWER CREAM 400 ML", Mo: "12405721", Total: 94.55 },
+    { No: 4, Line: "L005", ProductNo: "9-OP25419", ProductName: "BEAUTY BLOOMING VIOLET SHOWER400 ", Mo: " 12408205", Total: 93.72 },
+    { No: 5, Line: "L005", ProductNo: "9-CP75024", ProductName: "MOISTURE MILK WHITENING ESSENCE 100 ML", Mo: "112400899", Total: 91.73 },
+    { No: 6, Line: "L005", ProductNo: "9-OP28332F1", ProductName: "RHYTHMS OF NATURE SUMMER SOFT LINEN MIST 250 ML", Mo: "12406413", Total: 89.66 },
+    { No: 7, Line: "L005", ProductNo: "9-OP27339", ProductName: "PRINCESS GARDEN SWEET PEONY BODY MOISTURISER SPF10 250 ML", Mo: "12405922", Total: 84.38 },
+    { No: 8, Line: "L005", ProductNo: "9-OP28333F1", ProductName: "BEAUTY PASSION FLOWER SHOWER CREAM", Mo: "12406416", Total: 82.18 },
+    { No: 9, Line: "L005", ProductNo: "9-OP26504", ProductName: "BEAUTY DETOX CLARIFYING SHAMPOO 400ML", Mo: "112400661", Total: 78.08 },
+    { No: 10, Line: "L005", ProductNo: "9-OP27415", ProductName: "ORIENTAL BEAUTY SUMMER APRICOT SHOWER CREAM 400 ML", Mo: "12406637", Total: 77.06 },
+  ];
+
+  const renderHeaderColumn = () => {
+
+    if (currentTab === 'production') {
+      return (
+        <Table.tr>
+          <Table.th>No.</Table.th>
+          <Table.th>Line</Table.th>
+          <Table.th>Product No.</Table.th>
+          <Table.th>Product Name</Table.th>
+          <Table.th>Mo</Table.th>
+          <Table.th>Total</Table.th>
+        </Table.tr>
+      );
+    }
+    if (currentTab === 'oee') {
+      return (
+        <Table.tr>
+          <Table.th>No.</Table.th>
+          <Table.th>Line</Table.th>
+          <Table.th>Product No.</Table.th>
+          <Table.th>Product Name</Table.th>
+          <Table.th>Mo</Table.th>
+          <Table.th>Total</Table.th>
+        </Table.tr>
+      );
+    }
+
+    if (currentTab === 'eff') {
+      return (
+        <Table.tr>
+          <Table.th>No.</Table.th>
+          <Table.th>Line</Table.th>
+          <Table.th>Product No.</Table.th>
+          <Table.th>Product Name</Table.th>
+          <Table.th>Mo</Table.th>
+          <Table.th>Total</Table.th>
+        </Table.tr>
+      );
+    }
+    if (currentTab === 'defect') {
+      return (
+        <Table.tr>
+          <Table.th>No.</Table.th>
+          <Table.th>Defect</Table.th>
+          <Table.th>Process</Table.th>
+          <Table.th>Total</Table.th>
+        </Table.tr>
+      );
+    }
+
+    if (currentTab === 'lossTime') {
+      return (
+        <Table.tr>
+          <Table.th>No.</Table.th>
+          <Table.th>Losstime</Table.th>
+          <Table.th>Type</Table.th>
+          <Table.th>Total</Table.th>
+        </Table.tr>
+      );
+    }
+
+    return null; // ป้องกันการแสดงผลผิดพลาด
+  };
+  const renderBody = (item, index) => {
+    if (currentTab === 'oee') {
+      return (
+        <Table.tr key={index} css={index % 2 ? tw`bg-light-gray` : tw`bg-white`}>
+          <Table.td>{item.No}</Table.td>
+          <Table.td>{item.Line}</Table.td>
+          <Table.td>{item.ProductNo}</Table.td>
+          <Table.td>{item.ProductName}</Table.td>
+          <Table.td>{item.Mo}</Table.td>
+          <Table.td>{numberFormat(item.Total)} %</Table.td>
+        </Table.tr>
+      );
+    }
+    if (currentTab === 'eff') {
+      return (
+        <Table.tr key={index} css={index % 2 ? tw`bg-light-gray` : tw`bg-white`}>
+          <Table.td>{item.No}</Table.td>
+          <Table.td>{item.Line}</Table.td>
+          <Table.td>{item.ProductNo}</Table.td>
+          <Table.td>{item.ProductName}</Table.td>
+          <Table.td>{item.Mo}</Table.td>
+          <Table.td>{numberFormat(item.Total)} %</Table.td>
+        </Table.tr>
+      );
+    }
+    if (currentTab === 'production') {
+      return (
+        <Table.tr key={index} css={index % 2 ? tw`bg-light-gray` : tw`bg-white`}>
+          <Table.td>{item.No}</Table.td>
+          <Table.td>{item.Line}</Table.td>
+          <Table.td>{item.ProductNo}</Table.td>
+          <Table.td>{item.ProductName}</Table.td>
+          <Table.td>{item.Mo}</Table.td>
+          <Table.td>{numberFormat(item.Total)}</Table.td>
+        </Table.tr>
+      );
+    }
+
+    if (currentTab === 'defect') {
+      return (
+        <Table.tr key={index} css={index % 2 ? tw`bg-light-gray` : tw`bg-white`}>
+          <Table.td>{item.No}</Table.td>
+          <Table.td>{item.Defect}</Table.td>
+          <Table.td>{item.Process}</Table.td>
+          <Table.td>{numberFormat(item.Total)}</Table.td>
+        </Table.tr>
+      );
+    }
+    if (currentTab === 'lossTime') {
+      return (
+        <Table.tr key={index} css={index % 2 ? tw`bg-light-gray` : tw`bg-white`}>
+          <Table.td>{item.No}</Table.td>
+          <Table.td>{item.Losstime}</Table.td>
+          <Table.td>{item.Type}</Table.td>
+          <Table.td>{numberFormat(item.Total)}</Table.td>
+        </Table.tr>
+      );
+    }
+
+    return null; // กรณีที่ไม่มี tab ตรง
+  };
+  console.log('oee', renderBody)
+  const getMockData = () => {
+    if (currentTab === 'oee') return oeeTop3MockData;
+    if (currentTab === 'eff') return effTop10MockData;
+    if (currentTab === 'production') return productionTop10MockData;
+    if (currentTab === 'defect') return defectMockData;
+    if (currentTab === 'lossTime') return lossTimeMockData;
+    return [];
+  };
+
+  return (
+    <div className='custom-scroll'>
+      <Box
+        css={[
+          tw`mt-2 mb-7 py-8 px-[16px]`,
+          css`
+            box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.25);
+            border-radius: 25px;
+            min-height: 200px;
+          `,
+        ]}
+      >
+        <Table css={[tw`lg:w-full md:w-[1000px]`]}>
+          <Table.thead>{renderHeaderColumn()}</Table.thead>
+          <Table.tbody>
+            {getMockData()?.length > 0 ? (
+              getMockData().map((item, index) => renderBody(item, index))
+            ) : (
+              <Table.tr>
+                <Table.td colSpan={6}>
+                  <Typography css={[tw`mt-2 text-gray-300`]}>No Data found.</Typography>
+                </Table.td>
+              </Table.tr>
+            )}
+          </Table.tbody>
+        </Table>
+      </Box>
+    </div>
+  );
+
+}
