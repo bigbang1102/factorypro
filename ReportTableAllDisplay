@@ -1,0 +1,150 @@
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider, createTheme } from '@mui/material';
+import tw, { css } from 'twin.macro';
+
+const theme = createTheme({
+    components: {
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    fontFamily: 'Prompt',
+                    fontSize: '16px',
+                    padding: '15px 8px',
+                    border: 'none',
+                },
+            },
+        },
+    },
+});
+
+const styles = {
+    header: {
+        backgroundColor: '#f4f4f4',
+        fontWeight: 600,
+        border: '1px solid #ccc',
+        padding: '10px 6px',
+        fontSize: '14px',
+        position: 'sticky',
+        zIndex: 2,
+    },
+    grayHeader: {
+        backgroundColor: 'gray',
+        fontWeight: 600,
+        border: '1px solid #ccc',
+        padding: '10px 6px',
+        fontSize: '14px',
+        position: 'sticky',
+        zIndex: 2,
+    },
+    cell: {
+        padding: '10px 6px',
+        border: '1px solid #ccc',
+        fontSize: 14,
+        fontWeight: 400,
+    },
+};
+
+const headers = [
+    { label: 'วันที่', rowSpan: 2, style: styles.header },
+    { label: 'Line', rowSpan: 2, style: styles.header },
+    { label: 'Machine', rowSpan: 2, style: styles.header },
+    { label: 'เลขที่ MO', rowSpan: 2, style: styles.grayHeader },
+    { label: 'รหัสสินค้า', rowSpan: 2, style: styles.grayHeader },
+    { label: 'แผนผลิต/วัน', rowSpan: 2, style: styles.grayHeader },
+    { label: 'STD Time', colSpan: 1, style: styles.header },
+    { label: 'Set up', colSpan: 1, style: styles.header },
+    { label: 'การผลิต (นาที)', colSpan: 3, style: styles.header },
+    { label: 'ผลิตได้งานดี', rowSpan: 2, style: styles.grayHeader },
+    { label: 'ชิ้นงานเสีย', rowSpan: 2, style: styles.grayHeader },
+    { label: '%EFF', rowSpan: 2, style: styles.header },
+    { label: 'คน', rowSpan: 2, style: styles.header },
+    { label: 'MH', colSpan: 1, style: styles.grayHeader },
+    { label: 'Break-down', colSpan: 1, style: styles.grayHeader },
+    { label: 'หมายเหตุ', rowSpan: 2, style: styles.header },
+];
+
+const subHeaders = [
+    'PCS/Hr',
+    '(นาที)',
+    'เวลาเริ่ม',
+    'เวลาเสร็จ',
+    'รวม',
+    'pcs/hr',
+    '(นาที)',
+];
+
+function renderTableCell({ label, rowSpan, colSpan, style }, topOffset = 0) {
+    return (
+        <TableCell
+            key={label}
+            rowSpan={rowSpan}
+            colSpan={colSpan}
+            align="center"
+            style={{ ...style, top: topOffset }}
+        >
+            {label}
+        </TableCell>
+    );
+}
+
+function renderRowData(rowData, index) {
+    return (
+        <TableRow
+            key={index}
+            style={{
+                backgroundColor: index % 2 === 0 ? '#ffffff' : '#f9f9f9',
+            }}
+        >
+            {Object.entries(rowData).map(([key, value]) => (
+                <TableCell
+                    key={key}
+                    align="center"
+                    style={styles.cell}
+                >
+                    {value === 0 || value === '0' ? '-' : value}
+                </TableCell>
+            ))}
+        </TableRow>
+    );
+}
+
+export default function ReportTableAllDisplay({ reportData }) {
+    return (
+        <div className="custom-scroll">
+            <ThemeProvider theme={theme}>
+                <TableContainer
+                    sx={{ marginTop: '40px' }}
+                    css={[tw`max-h-[calc(100vh-40vh)] overflow-auto`, css``]}
+                >
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                {headers.map((header) => renderTableCell(header))}
+                            </TableRow>
+                            <TableRow>
+                                {subHeaders.map((label) =>
+                                    renderTableCell({ label, colSpan: 1, style: styles.header }, 40) // เปลี่ยน top จาก 38 เป็น 72
+                                )}
+                            </TableRow>
+
+                        </TableHead>
+
+                        <TableBody>
+                            {reportData?.length > 0 ? (
+                                reportData.map(renderRowData)
+                            ) : (
+                                <TableRow>
+                                    <TableCell
+                                        css={tw`pt-4 text-dark-gray-2 text-center`}
+                                        colSpan={Object.keys(reportData[0] || {}).length}
+                                    >
+                                        No data
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </ThemeProvider>
+        </div>
+    );
+}
